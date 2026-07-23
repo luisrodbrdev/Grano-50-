@@ -1,21 +1,49 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbyUNzqWhbymLGcaOvaVwK5iA-ppysc28RLBS8x2l440PtyxequXT5jY2Dg20Lj9hPCF/exec";
 
+// 1. Carga inicial: Si hay datos locales, los pinta DE INMEDIATO
 function cargarMenu() {
+    const datosGuardados = localStorage.getItem('menu_grano50');
+    if (datosGuardados) {
+        try {
+            renderizarMenuUI(JSON.parse(datosGuardados));
+        } catch (e) {
+            console.error("Error al leer caché local", e);
+        }
+    }
+
+    // Petición a Apps Script para obtener/actualizar datos frescos en segundo plano
     const script = document.createElement('script');
     script.src = `${API_URL}?callback=procesarDatosMenu`;
     
-    // Manejo de errores por si falla la red
     script.onerror = () => {
-        console.error("Error al cargar el menú desde Apps Script.");
-        document.querySelectorAll('.menu-products').forEach(cont => {
-            cont.innerHTML = "<p class='item-description'>Error al cargar el menú. Intenta refrescar.</p>";
-        });
+        console.error("Error al conectar con la API.");
+        if (!datosGuardados) {
+            document.querySelectorAll('.menu-products').forEach(cont => {
+                cont.innerHTML = "<p class='item-description'>Error al cargar el menú. Intenta refrescar.</p>";
+            });
+        }
     };
 
     document.body.appendChild(script);
 }
 
+// 2. Callback de la API: Guarda los nuevos datos y actualiza la vista
 function procesarDatosMenu(productos) {
+    try {
+        localStorage.setItem('menu_grano50', JSON.stringify(productos));
+    } catch(e) {
+        console.warn("No se pudo guardar en localStorage", e);
+    }
+
+    renderizarMenuUI(productos);
+
+    // Limpieza del tag de script inyectado
+    const scripts = document.querySelectorAll(`script[src*="${API_URL}"]`);
+    scripts.forEach(s => s.remove());
+}
+
+// 3. Renderizado eficiente del HTML en memoria
+function renderizarMenuUI(productos) {
     const conCafe = document.getElementById('contenedor-cafe');
     const conPan = document.getElementById('contenedor-panaderia');
     const conBebidas = document.getElementById('contenedor-bebidas');
@@ -30,7 +58,6 @@ function procesarDatosMenu(productos) {
         </div>
     `;
 
-    // Acumuladores de HTML en memoria
     let htmlCafe = "";
     let htmlPan = "";
     let htmlBebidas = "";
@@ -38,7 +65,6 @@ function procesarDatosMenu(productos) {
     let headerCafePintado = false;
     let headerBebidasPintado = false;
 
-    // Procesar datos en un solo ciclo rápido
     productos.forEach(producto => {
         const pChico = producto.chico ? `$${producto.chico}` : "";
         const pMediano = producto.mediano ? `$${producto.mediano}` : "";
@@ -82,17 +108,12 @@ function procesarDatosMenu(productos) {
         }
     });
 
-    // Inyección única al DOM (Instantánea)
     conCafe.innerHTML = htmlCafe;
     conPan.innerHTML = htmlPan;
     conBebidas.innerHTML = htmlBebidas;
-
-    // Limpieza de etiquetas de script residuales
-    const scripts = document.querySelectorAll(`script[src*="${API_URL}"]`);
-    scripts.forEach(s => s.remove());
 }
 
-// Inicialización rápida al cargar el DOM
+// Evento de inicio rápido
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', cargarMenu);
 } else {
