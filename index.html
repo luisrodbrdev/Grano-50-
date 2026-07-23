@@ -7,18 +7,30 @@
     <meta name="keywords" content="Grano 50, cafeteria, cafe de especialidad, cafe premium, ubicacion grano 50">
     <meta name="author" content="Grano 50">
     <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Grano 50 - Cafeterías Premium">
     <meta property="og:description" content="Descubre nuestra variedad de cafés y repostería fina. ¡Consulta nuestro menú en tiempo real!">
     <meta name="theme-color" content="#121212">
+    
     <title>Grano 50 - Cafeterias Premium</title>
-    <link class="hoja-estilos" rel="stylesheet" href="styles.css">
-    <link rel="icon" href="imgs/logo.png">
+    
+    <!-- Preconexión de recursos para acelerar carga -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Favicon e Hojas de estilo -->
+    <link rel="icon" type="image/x-icon" href="imgs/logo.png">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Carga no bloqueante de JavaScript -->
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header>
         <nav class="navegation">
-            
             <ul class="links-nav">
                 <li><a href="#Inicio">Inicio</a></li>
                 <li><a href="#Menu">Menu</a></li>
@@ -32,7 +44,8 @@
         <div class="hero-container">
             <h1>Grano 50 - Cafeterías Premium</h1>
             <div class="hero-bg">
-                <img src="imgs/bgHero.jpeg" alt="Cafetería generica">
+                <!-- Imagen Hero principal con prioridad de carga -->
+                <img src="imgs/bgHero.jpeg" alt="Interior de Grano 50 Cafetería" fetchpriority="high">
             </div>
             <a href="#Menu" class="btn-ver-menu"><strong>Ver Menu</strong></a>
         </div>
@@ -44,29 +57,35 @@
             
             <div class="menu-category-block">
                 <h3>☕ Cafés de Especialidad</h3>
-                <div class="menu-products" id="contenedor-cafe"></div>
+                <div class="menu-products" id="contenedor-cafe">
+                    <div class="placeholder-loading">Cargando menú...</div>
+                </div>
             </div>
 
             <div class="menu-photo-block">
-                <img src="imgs/cafeMenu.png" alt="Café de Especialidad Grano 50">
+                <img src="imgs/cafeMenu.png" alt="Café de Especialidad Grano 50" loading="lazy" width="450" height="480">
             </div>
 
             <div class="menu-category-block">
                 <h3>🥐 Panadería Artesanal</h3>
-                <div class="menu-products" id="contenedor-panaderia"></div>
+                <div class="menu-products" id="contenedor-panaderia">
+                    <div class="placeholder-loading">Cargando menú...</div>
+                </div>
             </div>
 
             <div class="menu-photo-block">
-                <img src="imgs/panMenu.png" alt="Panadería Artesanal Grano 50">
+                <img src="imgs/panMenu.png" alt="Panadería Artesanal Grano 50" loading="lazy" width="450" height="480">
             </div>
 
             <div class="menu-category-block">
                 <h3>🥤 Bebidas Frías</h3>
-                <div class="menu-products" id="contenedor-bebidas"></div>
+                <div class="menu-products" id="contenedor-bebidas">
+                    <div class="placeholder-loading">Cargando menú...</div>
+                </div>
             </div>
 
             <div class="menu-photo-block">
-                <img src="imgs/aguaMenu.png" alt="Bebidas Frías Grano 50">
+                <img src="imgs/aguaMenu.png" alt="Bebidas Frías Grano 50" loading="lazy" width="450" height="480">
             </div>
 
         </div>
@@ -75,7 +94,7 @@
     <section class="aboutUs-section" id="AboutUs">
         <div class="aboutUs-container">
             <div class="aboutUs-img">
-                <img src="imgs/sobreNosotros.png" alt="Interior de la cafeteria">
+                <img src="imgs/sobreNosotros.png" alt="Interior de la cafeteria" loading="lazy" width="550" height="350">
             </div>
             <div class="aboutUs-text">
                 <h2>Nuestra Historia</h2>
@@ -85,12 +104,12 @@
     </section>
 
     <section class="contact-section" id="Contact">
-        <h2>Visitanos</h2>
+        <h2>Visítanos</h2>
         <div class="grid-horarios">
             <div class="horarios">
                 <h3>Horarios</h3>
                 <p>Lunes a Viernes: 8:00am - 9:00pm</p>
-                <p>Sabado y Domingo: 8:00am - 5:00pm</p>
+                <p>Sábado y Domingo: 8:00am - 5:00pm</p>
             </div> 
             
             <div class="map">
@@ -106,6 +125,5 @@
             <a href="#">Facebook</a>
         </div>
     </footer>
-    <script src="script.js"></script>
 </body>
 </html>
